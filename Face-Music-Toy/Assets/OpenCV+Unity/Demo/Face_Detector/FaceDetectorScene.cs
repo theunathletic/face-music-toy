@@ -62,7 +62,18 @@
 			processor.ProcessTexture(input, TextureParameters);
 
 			// mark detected objects
-			processor.MarkDetected();
+			processor.MarkDetected(false);
+
+            foreach (DetectedFace face in processor.Faces) {
+                    foreach (DetectedObject sub in face.Elements)
+                    {
+                        if (sub.Marks != null)
+                        {
+                            UnityEngine.Debug.Log(sub.Name);
+
+                        }
+                    }
+            }
 
 			// processor.Image now holds data we'd like to visualize
 			output = Unity.MatToTexture(processor.Image, output);   // if output is valid texture it's buffer will be re-used, otherwise it will be re-created

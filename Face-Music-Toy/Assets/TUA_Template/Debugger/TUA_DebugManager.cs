@@ -22,10 +22,17 @@ public class TUA_DebugManager : MonoBehaviour
     private bool toggle_fps = false;
 
     //-------------------------------------------------------------------------------------------------------------------------
+    public Toggle ui_toggle_camera;
+    [SerializeField]
+    private bool toggle_camera = false;
+
+    //-------------------------------------------------------------------------------------------------------------------------
 
     // Start is called before the first frame update
     void Start()
     {
+        Debug.Log("Application Version : " + Application.version);
+
         screen_debugWindow.SetActive(toggle_debugWindow);
         InitialiseDebugBtn();
         InitialiseFPS();
@@ -70,6 +77,22 @@ public class TUA_DebugManager : MonoBehaviour
 
     public void UI_ToggleFPS(bool toggle) {
         fps_counter.SetActive(toggle);
+    }
+
+    //-------------------------------------------------------------------------------------------------------------------------
+    public void UI_ToggleCamera(bool toggle)
+    {
+        FaceTracker.Instance.ToggleFaceDetector_CameraTexture(toggle);
+    }
+
+    public void UI_ToggleProcessTexture(bool toggle)
+    {
+        FaceTracker.Instance.ToggleFaceDetector_ProcessTexture(toggle);
+    }
+
+    public void UI_ToggleFaceLines(bool toggle)
+    {
+        FaceTracker.Instance.ToggleFaceDetector_FaceLines(toggle);
     }
 
 
