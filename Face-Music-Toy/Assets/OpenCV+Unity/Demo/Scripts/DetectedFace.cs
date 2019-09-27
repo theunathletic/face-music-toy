@@ -7,7 +7,7 @@
 	/// <summary>
 	/// Detected object data
 	/// </summary>
-	class DetectedObject
+	public class DetectedObject
     {
         PointsDataStabilizer marksStabilizer = null;
 
@@ -92,7 +92,7 @@
     /// <summary>
     /// Detected face is a bit more complicated object with some extra "lazy" stuff
     /// </summary>
-    class DetectedFace : DetectedObject
+    public class DetectedFace : DetectedObject
     {
         /// <summary>
         /// Face elements
@@ -286,17 +286,17 @@
             if (null != Marks)
             {
                 keysApplied += DefineSubObject(FaceElements.Nose, "Nose", 30, 35) ? 1 : 0;
-                keysApplied += DefineSubObject(FaceElements.LeftEye, "Eye", 36, 41) ? 1 : 0;
-                keysApplied += DefineSubObject(FaceElements.RightEye, "Eye", 42, 47) ? 1 : 0;
+                keysApplied += DefineSubObject(FaceElements.LeftEye, "Eye_L", 36, 41) ? 1 : 0;
+                keysApplied += DefineSubObject(FaceElements.RightEye, "Eye_R", 42, 47) ? 1 : 0;
 
                 // non-key but independent
-                DefineSubObject(FaceElements.OuterLip, "Lip", 48, 59);
-                DefineSubObject(FaceElements.InnerLip, "Lip", 60, 67);
+                DefineSubObject(FaceElements.OuterLip, "Lip_Outer", 48, 59);
+                DefineSubObject(FaceElements.InnerLip, "Lip_Inner", 60, 67);
 
                 // dependent
                 bool updateDependants = keysApplied > 0;
-                DefineSubObject(FaceElements.LeftEyebrow, "Eyebrow", 17, 21, updateDependants);
-                DefineSubObject(FaceElements.RightEyebrow, "Eyebrow", 22, 26, updateDependants);
+                DefineSubObject(FaceElements.LeftEyebrow, "Eyebrow_L", 17, 21, updateDependants);
+                DefineSubObject(FaceElements.RightEyebrow, "Eyebrow_R", 22, 26, updateDependants);
                 DefineSubObject(FaceElements.NoseBridge, "Nose bridge", 27, 30, updateDependants);
                 DefineSubObject(FaceElements.Jaw, "Jaw", 0, 16, updateDependants);
             }

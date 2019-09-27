@@ -59,6 +59,7 @@ public class TUA_FaceDetector : MonoBehaviour
                 ReadTextureConversionParameters();
 
                 webCamTexture.Play();
+
             }
             else
             {
@@ -78,6 +79,14 @@ public class TUA_FaceDetector : MonoBehaviour
     public bool showRenderTexture = true; //Maybe remove this;
     public bool showCameraTexture = true;
     public bool showLines = true;
+
+    private Texture2D testRenderedTexture = null;
+    public GameObject textFaceLinesSurface;
+
+    public FaceController faceController;
+
+    private bool shouldSetTrackingAreaSize = true; //
+
 
     /// <summary>
     /// This method scans source device params (flip, rotation, front-camera status etc.) and
@@ -109,6 +118,8 @@ public class TUA_FaceDetector : MonoBehaviour
 
     private void Awake()
     {
+
+
         if (WebCamTexture.devices.Length > 0)
         {
             DeviceName = WebCamTexture.devices[WebCamTexture.devices.Length - 1].name;
@@ -145,6 +156,8 @@ public class TUA_FaceDetector : MonoBehaviour
         processor.Performance.Downscale = 256;          // processed image is pre-scaled down to N px by long side
         processor.Performance.SkipRate = 0;             // we actually process only each Nth frame (and every frame for skipRate = 0)
 
+
+            
     }
 
 
@@ -160,11 +173,23 @@ public class TUA_FaceDetector : MonoBehaviour
             // process texture with whatever method sub-class might have in mind
             if (ProcessTexture(webCamTexture, ref renderedTexture))
             {
+
                 if (showRenderTexture)
                 {
                     RenderFrame();
+
+                    //Render the face lines on a seperate texture as well.
+                    if (textFaceLinesSurface != null)
+                    {
+                        if (testRenderedTexture == null)
+                        {
+                            testRenderedTexture = new Texture2D(processor.Image.Width, processor.Image.Height);
+                        }
+                        textFaceLinesSurface.GetComponent<RawImage>().texture = DrawCustomFaces(processor);
+                    }
                 }
             }
+
         }
     }
 
@@ -174,11 +199,36 @@ public class TUA_FaceDetector : MonoBehaviour
     private bool ProcessTexture(WebCamTexture input, ref Texture2D output)
     {
         if (!shouldProcessTexure) {
+            if (faceController != null)
+            {
+                faceController.CheckTrackingState(false);
+            }
             return false;
         }
 
         // detect everything we're interested in
         processor.ProcessTexture(input, TextureParameters);
+
+        if (faceController != null)
+        {
+            int faceCount = processor.Faces.Count;
+            if (faceCount > 0)
+            {
+                if (shouldSetTrackingAreaSize) {
+                    shouldSetTrackingAreaSize = false;
+                    faceController.SetTrackingAreaSize(Surface.GetComponent<RectTransform>().rect.width,
+                    Surface.GetComponent<RectTransform>().rect.height);
+                }
+                faceController.CheckTrackingState(true);
+                faceController.UpdateFaceElementPositions(processor.Faces[0]);
+
+            }
+            else
+            {
+                shouldSetTrackingAreaSize = true;
+                faceController.CheckTrackingState(false);
+            }
+        }
 
         // mark detected objects
         if (showLines)
@@ -195,12 +245,14 @@ public class TUA_FaceDetector : MonoBehaviour
                     UnityEngine.Debug.Log(sub.Name);
                 }
             }
-        }
-        */
-        // processor.Image now holds data we'd like to visualize
-        output = OpenCvSharp.Unity.MatToTexture(processor.Image, output);   // if output is valid texture it's buffer will be re-used, otherwise it will be re-created
+        }*/
 
-        return true;
+        // processor.Image now holds data we'd like to visualize
+        if (showRenderTexture)
+        {
+            output = OpenCvSharp.Unity.MatToTexture(processor.Image, output);   // if output is valid texture it's buffer will be re-used, otherwise it will be re-created
+        }
+            return true;
     }
 
     /// <summary>
@@ -230,7 +282,7 @@ public class TUA_FaceDetector : MonoBehaviour
     public void ToggleShowCameraTexture(bool toggle)
     {
         showCameraTexture = toggle;
-        Surface.SetActive(showCameraTexture);
+        Surface.GetComponent<RawImage>().enabled = showCameraTexture;
     }
 
     public void ToggleShowLines(bool toggle)
@@ -254,5 +306,42 @@ public class TUA_FaceDetector : MonoBehaviour
         {
             webCamDevice = null;
         }
+    }
+
+    /// <summary>
+    /// Marks detected objects on the texture
+    /// </summary>
+    private Texture2D DrawCustomFaces(OpenCvSharp.Demo.FaceProcessorLive<WebCamTexture> processer, bool drawSubItems = true)
+    {
+        Mat Image = OpenCvSharp.Unity.TextureToMat(testRenderedTexture, TextureParameters);
+        // mark each found eye
+        foreach (OpenCvSharp.Demo.DetectedFace face in processer.Faces)
+        {
+
+            
+            // face rect
+            Cv2.Rectangle((InputOutputArray)Image, face.Region, Scalar.FromRgb(255, 0, 0), 2);
+
+            // convex hull
+            //Cv2.Polylines(Image, new IEnumerable<Point>[] { face.Info.ConvexHull }, true, Scalar.FromRgb(255, 0, 0), 2);
+
+            // render face triangulation (should we have one)
+            if (face.Info != null)
+            {
+                foreach (OpenCvSharp.Demo.DetectedFace.Triangle tr in face.Info.DelaunayTriangles)
+                    Cv2.Polylines(Image, new IEnumerable<Point>[] { tr.ToArray() }, true, Scalar.FromRgb(0, 0, 255), 1);
+            }
+
+            // Sub-items
+            if (drawSubItems)
+            {
+                List<string> closedItems = new List<string>(new string[] { "Nose", "Eye", "Lip" });
+                foreach (OpenCvSharp.Demo.DetectedObject sub in face.Elements)
+                    if (sub.Marks != null)
+                        Cv2.Polylines(Image, new IEnumerable<Point>[] { sub.Marks }, closedItems.Contains(sub.Name), Scalar.FromRgb(0, 255, 0), 1);
+            }
+        }
+
+        return OpenCvSharp.Unity.MatToTexture(Image);
     }
 }

@@ -7,7 +7,7 @@
 	/// <summary>
 	/// Data stabilizer general parameters
 	/// </summary>
-	class DataStabilizerParams
+	public class DataStabilizerParams
     {
         /// <summary>
         /// Should this stabilizer just push data through (false value) or do some work before (true value)?
