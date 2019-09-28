@@ -139,7 +139,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 60319662}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1, y: 2, z: -0.5}
+  m_LocalPosition: {x: 1.05, y: 1.7, z: -0.5}
   m_LocalScale: {x: 2, y: 2, z: 0.19999999}
   m_Children: []
   m_Father: {fileID: 1641084130}
@@ -826,7 +826,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &395266097
 Transform:
   m_ObjectHideFlags: 0
@@ -835,8 +835,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 395266096}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -1.44, z: 0}
-  m_LocalScale: {x: 1, y: 0.19999999, z: 0.19999999}
+  m_LocalPosition: {x: 0, y: 0.9, z: 0}
+  m_LocalScale: {x: 3.4, y: 4, z: 0.19999999}
   m_Children: []
   m_Father: {fileID: 1641084130}
   m_RootOrder: 7
@@ -871,7 +871,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 3aaebeb3de54c4983a34e405fd3b0616, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1051,8 +1051,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 648155753}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1, y: 0.8, z: 0}
-  m_LocalScale: {x: 2, y: 0.5, z: 0.19999999}
+  m_LocalPosition: {x: 0.825, y: 1.3, z: -0.2}
+  m_LocalScale: {x: 1.5, y: 1.3, z: 0.19999999}
   m_Children: []
   m_Father: {fileID: 1641084130}
   m_RootOrder: 3
@@ -1248,7 +1248,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 787448561}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -2.06, z: 0}
+  m_LocalPosition: {x: 0, y: -1.9, z: -0.5}
   m_LocalScale: {x: 4, y: 2, z: 0.19999999}
   m_Children: []
   m_Father: {fileID: 1641084130}
@@ -1357,7 +1357,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0.019607844}
+  m_BackGroundColor: {r: 0.23789605, g: 0.34349412, b: 0.509434, a: 0.019607844}
   m_projectionMatrixMode: 1
   m_SensorSize: {x: 36, y: 24}
   m_LensShift: {x: 0, y: 0}
@@ -1509,7 +1509,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 824878364}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1, y: 2, z: -0.5}
+  m_LocalPosition: {x: -1.05, y: 1.7, z: -0.5}
   m_LocalScale: {x: 2, y: 2, z: 0.2}
   m_Children: []
   m_Father: {fileID: 1641084130}
@@ -3168,7 +3168,7 @@ Transform:
   m_GameObject: {fileID: 1804032471}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 1.05}
-  m_LocalScale: {x: 4.4, y: 4.4, z: 1}
+  m_LocalScale: {x: 5, y: 10, z: 1}
   m_Children: []
   m_Father: {fileID: 1641084130}
   m_RootOrder: 9
@@ -3451,23 +3451,59 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isTrackingFace: 0
-  faceParent: {fileID: 1641084129}
-  faceParent_targetPos: {x: 0, y: 0, z: 0}
-  scaleFaceMovement: 0.001
-  faceMoveSpeed: 5
-  nose: {fileID: 862620179}
+  maskParent: {fileID: 1641084129}
+  maskParent_targetPos: {x: 0, y: 0, z: 0}
+  scaleMaskMovement: 0.001
+  maskMoveSpeed: 2
   eyebrow_L: {fileID: 824878364}
   eyebrow_R: {fileID: 60319662}
-  eye_L: {fileID: 1412550777}
-  eye_R: {fileID: 1434395900}
-  eyebrowMoveSpeed: 1
-  eyebrow_L_pos: {x: 0, y: 0}
-  eye_L_pos: {x: 0, y: 0}
-  eyebrow_R_pos: {x: 0, y: 0}
-  eye_R_pos: {x: 0, y: 0}
-  eyeBrowDist_L: 0
   faceRegionSize: {x: 0, y: 0}
   faceRegionPos: {x: 0, y: 0}
+  shouldSetBaseline: 0
+  faceRegionSize_lastRecalculateSize: {x: 0, y: 0}
+  faceRegionSize_recalculateThreshold: 20
+  eyebrow_L_pos: {x: 0, y: 0}
+  eye_L_pos: {x: 0, y: 0}
+  eyeBrowDist_L: 0
+  eyeBrowDist_L_min: 0
+  eyeBrowDist_L_max: 0
+  eyebrow_R_pos: {x: 0, y: 0}
+  eye_R_pos: {x: 0, y: 0}
+  eyeBrowDist_R: 0
+  eyeBrowDist_R_min: 0
+  eyeBrowDist_R_max: 0
+  mouth_top: {x: 0, y: 0}
+  mouth_bot: {x: 0, y: 0}
+  mouthDist: 0
+  mouthDist_min: 0
+  mouthDist_max: 0
+  mouthTrigger: 0
+  mouthTriggerSensitivity: 0.5
+  eyebrowTrigger_L: 0
+  eyebrowTriggerSensitivity_L: 0.5
+  eyebrowTrigger_R: 0
+  eyebrowTriggerSensitivity_R: 0.5
+  maskMouthBot: {fileID: 787448561}
+  maskMouthBot_startingPos: {x: 0, y: 0, z: 0}
+  maskMouthBot_targetPos: {x: 0, y: 0, z: 0}
+  maskMouthBot_maxMovement: -1
+  maskMouthBot_moveSpeed: 5
+  maskMouthTop: {fileID: 395266096}
+  maskMouthTop_startingPos: {x: 0, y: 0, z: 0}
+  maskMouthTop_targetPos: {x: 0, y: 0, z: 0}
+  maskMouthTop_maxMovement: 0.5
+  maskMouthTop_moveSpeed: 5
+  maskEyebrow_L: {fileID: 824878364}
+  maskEyebrow_L_startingPos: {x: 0, y: 0, z: 0}
+  maskEyebrow_L_targetPos: {x: 0, y: 0, z: 0}
+  maskEyebrow_L_maxMovement: 0.8
+  maskEyebrow_L_moveSpeed: 5
+  maskEyebrow_R: {fileID: 60319662}
+  maskEyebrow_R_startingPos: {x: 0, y: 0, z: 0}
+  maskEyebrow_R_targetPos: {x: 0, y: 0, z: 0}
+  maskEyebrow_R_maxMovement: 0.8
+  maskEyebrow_R_moveSpeed: 5
+  eyebrowMoveSpeed: 1
 --- !u!1 &1953329391
 GameObject:
   m_ObjectHideFlags: 0
@@ -4214,8 +4250,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2126537216}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1, y: 0.8, z: 0}
-  m_LocalScale: {x: 2, y: 0.5, z: 0.19999999}
+  m_LocalPosition: {x: -0.825, y: 1.3, z: -0.2}
+  m_LocalScale: {x: 1.5, y: 1.3, z: 0.19999999}
   m_Children: []
   m_Father: {fileID: 1641084130}
   m_RootOrder: 2
