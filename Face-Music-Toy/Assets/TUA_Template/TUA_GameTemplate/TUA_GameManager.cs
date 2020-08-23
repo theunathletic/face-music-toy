@@ -44,6 +44,9 @@ public class TUA_GameManager : MonoBehaviour
 
         Instance = this;
 
+        // Disable screen dimming
+        Screen.sleepTimeout = SleepTimeout.NeverSleep;
+
     }
 
     //-------------------------------------------------------------------------------------------------------------------------

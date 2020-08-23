@@ -9,7 +9,7 @@ public class FaceController : MonoBehaviour
 {
     public bool isTrackingFace = false;
 
-    private Vector2 trackingAreaSize;
+    public Vector2 trackingAreaSize;
 
     //General mask and mask movement;
     public GameObject maskParent;

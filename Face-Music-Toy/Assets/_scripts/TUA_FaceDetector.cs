@@ -7,6 +7,8 @@ using OpenCvSharp;
 
 public class TUA_FaceDetector : MonoBehaviour
 {
+
+
     /// <summary>
     /// Target surface to render WebCam stream
     /// </summary>
@@ -79,11 +81,16 @@ public class TUA_FaceDetector : MonoBehaviour
     public bool showRenderTexture = true; //Maybe remove this;
     public bool showCameraTexture = true;
     public bool showLines = true;
+    public bool showFaceSizeGuides = true;
 
     private Texture2D testRenderedTexture = null;
     public GameObject textFaceLinesSurface;
 
-    public FaceController faceController;
+    public GameObject faceSizeGuidesObject;
+
+
+
+    public TUA_FaceController faceController;
 
     private bool shouldSetTrackingAreaSize = true; //
 
@@ -201,7 +208,7 @@ public class TUA_FaceDetector : MonoBehaviour
         if (!shouldProcessTexure) {
             if (faceController != null)
             {
-                faceController.CheckTrackingState(false);
+                faceController.SetTrackingState(false);
             }
             return false;
         }
@@ -219,14 +226,14 @@ public class TUA_FaceDetector : MonoBehaviour
                     faceController.SetTrackingAreaSize(Surface.GetComponent<RectTransform>().rect.width,
                     Surface.GetComponent<RectTransform>().rect.height);
                 }
-                faceController.CheckTrackingState(true);
+                faceController.SetTrackingState(true);
                 faceController.UpdateFaceElementPositions(processor.Faces[0]);
 
             }
             else
             {
                 shouldSetTrackingAreaSize = true;
-                faceController.CheckTrackingState(false);
+                faceController.SetTrackingState(false);
             }
         }
 
@@ -283,11 +290,20 @@ public class TUA_FaceDetector : MonoBehaviour
     {
         showCameraTexture = toggle;
         Surface.GetComponent<RawImage>().enabled = showCameraTexture;
+        Surface.SetActive(showCameraTexture);
     }
 
     public void ToggleShowLines(bool toggle)
     {
         showLines = toggle;
+    }
+
+    public void ToggleFaceSizeGuides(bool toggle)
+    {
+        //showLines = toggle;
+        showFaceSizeGuides = toggle;
+        faceSizeGuidesObject.SetActive(showFaceSizeGuides);
+
     }
 
 

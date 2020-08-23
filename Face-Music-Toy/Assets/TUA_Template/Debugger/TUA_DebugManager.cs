@@ -82,18 +82,34 @@ public class TUA_DebugManager : MonoBehaviour
     //-------------------------------------------------------------------------------------------------------------------------
     public void UI_ToggleCamera(bool toggle)
     {
-        FaceTracker.Instance.ToggleFaceDetector_CameraTexture(toggle);
+        TUA_FaceDetectorManager.Instance.ToggleFaceDetector_CameraTexture(toggle);
     }
 
     public void UI_ToggleProcessTexture(bool toggle)
     {
-        FaceTracker.Instance.ToggleFaceDetector_ProcessTexture(toggle);
+        TUA_FaceDetectorManager.Instance.ToggleFaceDetector_ProcessTexture(toggle);
     }
 
     public void UI_ToggleFaceLines(bool toggle)
     {
-        FaceTracker.Instance.ToggleFaceDetector_FaceLines(toggle);
+        TUA_FaceDetectorManager.Instance.ToggleFaceDetector_FaceLines(toggle);
     }
 
+    public void UI_ToggleFaceSizeGuides(bool toggle)
+    {
+        TUA_FaceDetectorManager.Instance.ToggleFaceDetector_FaceSizeGuides(toggle);
+    }
+
+    //-------------------------------------------------------------------------------------------------------------------------
+
+    public void UI_NextMask() 
+    {
+        MaskSelectionController.Instance.SelectNextMask(); 
+    }
+
+    public void UI_PrevMask()
+    {
+        MaskSelectionController.Instance.SelectPrevMask();
+    }
 
 }

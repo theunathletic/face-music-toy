@@ -7,7 +7,9 @@ public class TUA_AudioManager : MonoBehaviour
 
     public AudioSource audioSource_sfx;
     public AudioSource audioSource_music;
-    
+
+    public AudioSource audioSource_loop;
+
     [Header("UI Sounds")]
     public AudioClip buttonSound;
 
@@ -50,5 +52,23 @@ public class TUA_AudioManager : MonoBehaviour
     public void PlayButtonSound()
     {
         audioSource_sfx.PlayOneShot(buttonSound);
+    }
+
+    public void PlayAudioLoop(AudioClip clip) {
+        audioSource_loop.clip = clip;
+        audioSource_loop.Play();
+    }
+
+    public void StopAudioLoop() {
+        audioSource_loop.Stop();
+    }
+
+    public void AudioLoopAdjustVolume(float adjustValue) {
+        audioSource_loop.volume = adjustValue;
+    }
+
+    public void AudioLoopAdjustPitch(float adjustValue)
+    {
+        audioSource_loop.pitch = adjustValue + 0.2f;
     }
 }
